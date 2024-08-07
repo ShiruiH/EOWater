@@ -6,7 +6,22 @@ This repository presents an efficient GEE-based solution to mapping water surfac
 <img src="./doc/example_time-series.png" alt="drawing" width="700"/>
 </p>
 
-### 1. Create polygon masks
+### Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+   - [Create polygon masks](#masks)
+   - [Upload masks to GEE Assets](#upload)
+   - [Run GEE scripts in Code Editor](#gee)
+   - [Postprocess CSV files](#postprocessing)
+- [Contributing and Issues](#issues)
+- [References and Datasets](#references)
+
+## Installation<a name="installation"></a>
+
+## Usage<a name="usage"></a>
+
+### 1. Create polygon masks<a name="masks"></a>
 
 [01_Create_polygon_mask.ipynb](./01_Create_polygon_mask.ipynb): notebook to generate the polygon masks for Landsat and Sentinel-2 tiles using a waterbodies boundaries vector layer.
 
@@ -16,9 +31,12 @@ This creates a .tif file with a mask where each individual polygon is assigned a
 <img src="./doc/example_polygon_mask.PNG" alt="drawing" width="500"/>
 </p>
 
-### 2. Upload polygon masks to GEE Assets 
+### 2. Upload masks to GEE Assets <a name="upload"></a>
 
-Once the polygon masks have been generated, they need to be uploaded as cloud assets to GEE.
+Once the polygon masks have been generated in Python, they need to be uploaded as cloud assets into GEE. You can follow the instructions below to perform this step.
+
+<details>
+<summary>Detailed instructions</summary>
 
 1. Go to https://code.earthengine.google.com/, sign in and select your cloud project (in this example `nsw-dpe-gee-tst`).
 
@@ -61,15 +79,17 @@ You should get a table that relates each unique polygon id to an integer value, 
 <p align="center">
 <img src="./doc/GEE_upload_8.png" alt="drawing" width="300"/>
 </p>
+</details>
+<br>
 
-Now you are all setup to map water surface area time-series in GEE!
-
-:warning: check that you have these 3 assets uploaded:
+:warning: Check that you have these 3 assets uploaded:
 - `Base_Sentinel2_tiles`: image collection of polygon masks for each tile of interest for Sentinel-2.
 - `Base_Landsat_tiles`: image collection of polygon masks for each tile of interest for Landsat.
 - `Base_labels`: table relating each polygon id to its unique label value in the masks.
 
-### 3. Run GEE scripts in Code Editor
+Now you are all setup to map water surface area time-series in GEE!
+
+### 3. Run GEE scripts in Code Editor<a name="gee"></a>
 
 The scripts are found in GEE_scripts and can be copied into the Code Editor and run there. They will output a set of CSV files with the time-series of water surface area for each polygon. The following scripts are available:
 1. [WSA_monitoring_S2.js](./GEE_scripts/WSA_monitoring_S2.js): map water surface area on Sentinel-2 images.
@@ -83,10 +103,32 @@ map water surface area on Landsat 5 images.
 Additionally, there is a Python script [WSA_scheduled_cloud_function.js](./GEE_scripts/WSA_scheduled_cloud_function.js) that can be setup as a Cloud Function to process Sentinel-2, Landsat 9 and Landsat 8 imagery as a cron job. 
 
 
-### 4. Postprocess CSV files in Python
+### 4. Postprocess CSV files<a name="postprocessing"></a>
 
-[02_Postprocess_timeseries.ipynb](./02_Postprocess_timeseries.ipynb): notebook to postprocess the time-series of water surface area generated in GEE. This notebook creates individual postprocessed CSV files with the time-series for each polygon.
-
+[02_Postprocess_timeseries.ipynb](./02_Postprocess_timeseries.ipynb): notebook to postprocess the time-series of water surface area generated in GEE and includes the following steps:
+- remove outliers using an ad hoc despiking algorithm
+- clip time-series to the total area of the polygon (max area of water)
+The postprocessed time-series are then saved in individual CSV files named with each polygon identifier. A plot is also created for each polygon.
 <p align="center">
 <img src="./doc/OFS_00557_area.jpg" alt="drawing" width="700"/>
 </p>
+Finally, the notebook also creates an interactive map where users can visualise the polygons and time-series at the same time (click on a polygon to visualise the time-series plot).
+<p align="center">
+<img src="./doc/example_interactive_map.png" alt="drawing" width="700"/>
+</p>
+
+This can be a useful tool to monitor water resources in a catchment.
+
+## Contributing and Issues<a name="issues"></a>
+Having a problem? Post an issue in the [Issues page](./issues) (please do not email).
+
+If you are willing to contribute, check out our todo list in the [Projects page](./projects/1).
+1. Fork the repository (./fork).
+A fork is a copy on which you can make your changes.
+2. Create a new branch on your fork
+3. Commit your changes and push them to your branch
+4. When the branch is ready to be merged, create a Pull Request (how to make a clean pull request explained [here](https://gist.github.com/MarcDiethelm/7303312))
+
+## References and Datasets<a name="references"></a>
+
+This section provides a list of references on this topic.
