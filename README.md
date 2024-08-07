@@ -3,7 +3,7 @@
 This repository presents an efficient GEE-based solution to mapping water surface area time-series in waterbodies from Landsat and Sentinel-2.
 
 <p align="center">
-<img src="./doc/example_time-series.PNG" alt="drawing" width="700"/>
+<img src="./doc/example_time-series.png" alt="drawing" width="700"/>
 </p>
 
 ### 1. Create polygon masks
