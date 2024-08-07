@@ -64,8 +64,25 @@ You should get a table that relates each unique polygon id to an integer value, 
 
 Now you are all setup to map water surface area time-series in GEE!
 
+:warning: check that you have these 3 assets uploaded:
+- `Base_Sentinel2_tiles`: image collection of polygon masks for each tile of interest for Sentinel-2.
+- `Base_Landsat_tiles`: image collection of polygon masks for each tile of interest for Landsat.
+- `Base_labels`: table relating each polygon id to its unique label value in the masks.
+
 ### 3. Run GEE scripts in Code Editor
 
-The scripts are found in GEE_scripts and can be copied into the Code Editor and run there. They will output a set of CSV files with the time-series of water surface area for each polygon.
+The scripts are found in GEE_scripts and can be copied into the Code Editor and run there. They will output a set of CSV files with the time-series of water surface area for each polygon. The following scripts are available:
+1. [WSA_monitoring_S2.js](./GEE_scripts/WSA_monitoring_S2.js): map water surface area on Sentinel-2 images.
+2. [WSA_monitoring_L9.js](./GEE_scripts/WSA_monitoring_L9.js): map water surface area on Landsat 9 images.
+3. [WSA_monitoring_L8.js](./GEE_scripts/WSA_monitoring_L8.js): map water surface area on Landsat 8 images.
+4. [WSA_monitoring_L7.js](./GEE_scripts/WSA_monitoring_L7.js):
+map water surface area on Landsat 7 images.
+5. [WSA_monitoring_L5.js](./GEE_scripts/WSA_monitoring_L5.js):
+map water surface area on Landsat 5 images.
+
+Additionally, there is a Python script [WSA_scheduled_cloud_function.js](./GEE_scripts/WSA_scheduled_cloud_function.js) that can be setup as a Cloud Function to process Sentinel-2, Landsat 9 and Landsat 8 imagery as a cron job. 
+
 
 ### 4. Postprocess CSV files in Python
+
+ADD A NOTEBOOK THAT READS CSV FILE THAT IS STORED IN CLOUD BUCKET AND MAKES ON PLOT PER POLYGON ID
