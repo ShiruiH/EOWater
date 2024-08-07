@@ -11,6 +11,7 @@ This creates a .tif file with a mask where each individual polygon is assigned a
 <p align="center">
 <img src="./doc/example_polygon_mask.PNG" alt="drawing" width="500"/>
 </p>
+
 ### 2. Upload polygon masks to GEE Assets 
 
 Once the polygon masks have been generated, they need to be uploaded as cloud assets to GEE.
@@ -21,30 +22,37 @@ Once the polygon masks have been generated, they need to be uploaded as cloud as
 <p align="center">
 <img src="./doc/GEE_upload_1.png" alt="drawing" width="300"/>
 </p>
+
 3. Once uploaded, click on the asset and it should show up like in the screenshot below:
 <p align="center">
 <img src="./doc/GEE_upload_2.png" alt="drawing" width="400"/>
 </p>
+
 4. Click on Edit then on the PROPERTIES tab and Add property. Add a property called Tile with value 55JGH (or different tilename). This property is needed later on.
 <p align="center">
 <img src="./doc/GEE_upload_3.png" alt="drawing" width="400"/>
 </p>
+
 5. Repeat for the Landsat tiles, but add two properties, PATH and ROW with their respective values (example below for tile 090081).
 <p align="center">
 <img src="./doc/GEE_upload_4.png" alt="drawing" width="400"/>
 </p>
+
 6. Once all the individual tiles have been uploaded, click on NEW > Image Collection and create an image collection for Sentinel-2 (named it Base_Sentinel2_tiles) and for Landsat (name it Base_Landsat_tiles). 
 <p align="center">
 <img src="./doc/GEE_upload_5.png" alt="drawing" width="300"/>
 </p>
+
 7. Then drag and drop all the invididual tiles into their respective image collection (Sentinel-2 or Landsat). The image collection should look as below (17 tiles in that example):
 <p align="center">
 <img src="./doc/GEE_upload_6.png" alt="drawing" width="400"/>
 </p>
+
 8. Finally, upload the image labels which were saved in /outputs. Click on NEW > CSV file and select the file `outputs/labels_S2.csv` (or Landsat one, they are the same). Call the asset Base_labels.
 <p align="center">
 <img src="./doc/GEE_upload_7.png" alt="drawing" width="300"/>
 </p>
+
 You should get a table that relates each unique polygon id to an integer value, like shown below:
 <p align="center">
 <img src="./doc/GEE_upload_8.png" alt="drawing" width="300"/>
