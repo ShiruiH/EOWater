@@ -13,7 +13,7 @@ This repository presents an efficient GEE-based solution to mapping water surfac
    - [Create polygon masks](#masks)
    - [Upload masks to GEE Assets](#upload)
    - [Run GEE scripts in Code Editor](#gee)
-   - [Postprocess CSV files](#postprocessing)
+   - [Postprocess water surface areas](#postprocessing)
 - [Contributing and Issues](#issues)
 - [References and Datasets](#references)
 
@@ -103,7 +103,7 @@ map water surface area on Landsat 5 images.
 Additionally, there is a Python script [WSA_scheduled_cloud_function.js](./GEE_scripts/WSA_scheduled_cloud_function.js) that can be setup as a Cloud Function to process Sentinel-2, Landsat 9 and Landsat 8 imagery as a cron job. 
 
 
-### 4. Postprocess CSV files<a name="postprocessing"></a>
+### 4. Postprocess water surface areas<a name="postprocessing"></a>
 
 [02_Postprocess_timeseries.ipynb](./02_Postprocess_timeseries.ipynb): notebook to postprocess the time-series of water surface area generated in GEE and includes the following steps:
 - remove outliers using an ad hoc despiking algorithm
