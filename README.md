@@ -17,7 +17,7 @@ This repository presents an efficient GEE-based solution to mapping water surfac
 - [Contributing and Issues](#issues)
 - [References and Datasets](#references)
 
-## Installation<a name="installation"></a>
+## Installation<a name="instructions"></a>
 
 ## Usage<a name="usage"></a>
 
@@ -120,9 +120,9 @@ Finally, the notebook also creates an interactive map where users can visualise 
 This can be a useful tool to monitor water resources in a catchment.
 
 ## Contributing and Issues<a name="issues"></a>
-Having a problem? Post an issue in the [Issues page](./issues) (please do not email).
+Having a problem? Post an issue in the [Issues page](https://github.com/ShiruiH/time-series-OFS/issues) (please do not email).
 
-If you are willing to contribute, check out our todo list in the [Projects page](./projects/1).
+If you are willing to contribute, check out our todo list in the [Projects page](https://github.com/ShiruiH/time-series-OFS/projects?query=is%3Aopen).
 1. Fork the repository (./fork).
 A fork is a copy on which you can make your changes.
 2. Create a new branch on your fork
