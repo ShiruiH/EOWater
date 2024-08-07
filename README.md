@@ -1,4 +1,4 @@
-# time-series-OFS
+# Water surface area time-series from Sentinel-2 and Landat
 
 This repository presents an efficient GEE-based solution to mapping water surface area time-series in waterbodies from Landsat and Sentinel-2.
 
