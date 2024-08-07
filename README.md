@@ -85,4 +85,8 @@ Additionally, there is a Python script [WSA_scheduled_cloud_function.js](./GEE_s
 
 ### 4. Postprocess CSV files in Python
 
-ADD A NOTEBOOK THAT READS CSV FILE THAT IS STORED IN CLOUD BUCKET AND MAKES ON PLOT PER POLYGON ID
+[02_Postprocess_timeseries.ipynb](./02_Postprocess_timeseries.ipynb): notebook to postprocess the time-series of water surface area generated in GEE. This notebook creates individual postprocessed CSV files with the time-series for each polygon.
+
+<p align="center">
+<img src="./doc/OFS_00557_area.jpg" alt="drawing" width="700"/>
+</p>
