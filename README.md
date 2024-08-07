@@ -2,6 +2,10 @@
 
 This repository presents an efficient GEE-based solution to mapping water surface area time-series in waterbodies from Landsat and Sentinel-2.
 
+<p align="center">
+<img src="./doc/example_time-series.PNG" alt="drawing" width="700"/>
+</p>
+
 ### 1. Create polygon masks
 
 [01_Create_polygon_mask.ipynb](./01_Create_polygon_mask.ipynb): notebook to generate the polygon masks for Landsat and Sentinel-2 tiles using a waterbodies boundaries vector layer.
