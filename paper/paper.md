@@ -5,6 +5,7 @@ tags:
   - Python
   - Javascript
   - water monitoring
+  - water resources management
 authors:
   - name: Shirui Hao
     orcid: 0000-0000-0000-0000

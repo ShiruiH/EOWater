@@ -1,0 +1,7 @@
+*checkpoint.ipynb
+*checkpoint.md
+*.pyc
+*.~
+/inputs
+outputs/plots_area
+outputs/timeseries_area
