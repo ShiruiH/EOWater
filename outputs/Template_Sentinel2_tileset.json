@@ -1,0 +1,17 @@
+{
+    "name": "projects/nsw-dpe-gee-tst/assets/OFS/exp_baseOFS_Sentinel2_tiles/20231213T001111_20231213T001105_T55HEE",
+    "tilesets": [
+        {
+            "sources": [
+                {
+                    "uris": [
+                        "gs://label-tiles/Sentinel2_tiles_mask/20231213T001111_20231213T001105_T55HEE.tif"
+                    ]
+                }
+            ]
+        }
+    ],
+    "properties": {
+        "Tile": "55HEE"
+    }
+}
