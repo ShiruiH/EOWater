@@ -21,7 +21,25 @@ This repository presents an efficient GEE-based solution to mapping water surfac
 
 ## Usage<a name="usage"></a>
 
-### 1. Create polygon masks<a name="masks"></a>
+### 1. Download Sentinel-2 and Landsat original tiles
+
+Two downloading options are available:
+
+<details>
+<summary>Option #1 download from imagery websites</summary>
+
+Visit satellite imagery download websites, such as [USGS](https://earthexplorer.usgs.gov/), to acquire the required Sentinel-2 and Landsat original tiles.
+
+</details>
+
+<details>
+<summary>Option #2 download using GEE script</summary>
+
+[Download_original_tiles.js](./GEE_scripts/Download_original_tiles.js): Javascript notebook to download orignal tiles. Specify the required tile names in `tileList`.
+
+</details>
+
+### 2. Create polygon masks<a name="masks"></a>
 
 [01_Create_polygon_mask.ipynb](./01_Create_polygon_mask.ipynb): notebook to generate the polygon masks for Landsat and Sentinel-2 tiles using a waterbodies boundaries vector layer.
 
@@ -31,12 +49,18 @@ This creates a .tif file with a mask where each individual polygon is assigned a
 <img src="./doc/example_polygon_mask.PNG" alt="drawing" width="500"/>
 </p>
 
-### 2. Upload masks to GEE Assets <a name="upload"></a>
+### 3. Upload masks to GEE Assets <a name="upload"></a>
 
-Once the polygon masks have been generated in Python, they need to be uploaded as cloud assets into GEE. You can follow the instructions below to perform this step.
+Once the polygon masks have been generated in Python, they need to be uploaded as cloud assets into GEE. You can follow the instructions below to perform this step. Two options are available, with different usage scnarios.
 
-<details>
-<summary>Detailed instructions</summary>
+If only a few images need to be uploaded (e.g., fewer than 10), the [Option #1 manual process](#upload_to_ee_details_1) is recommended. This method avoids the need to set up Cloud Storage access authentication.
+
+For uploading a large number of images, the [Option #2 automated process](#upload_to_ee_details_2) is more efficient.
+
+(Optional) If polygon masks in GEE Assets need to be removed and re-uploaded. Use [04_Remove_tiles_from_EEAssets.ipynb](./04_Remove_tiles_from_EEAssets.ipynb) to batch remove all tiles.
+
+<details id='upload_to_ee_details_1'>
+<summary>Option #1 manual process</summary>
 
 1. Go to https://code.earthengine.google.com/, sign in and select your cloud project (in this example `nsw-dpe-gee-tst`).
 
@@ -60,7 +84,7 @@ Once the polygon masks have been generated in Python, they need to be uploaded a
 <img src="./doc/GEE_upload_4.png" alt="drawing" width="400"/>
 </p>
 
-6. Once all the individual tiles have been uploaded, click on NEW > Image Collection and create an image collection for Sentinel-2 (named it Base_Sentinel2_tiles) and for Landsat (name it Base_Landsat_tiles). 
+6. Once all the individual tiles have been uploaded, click on NEW > Image Collection and create an image collection for Sentinel-2 (named it `Base_Sentinel2_tiles`) and for Landsat (name it `Base_Landsat_tiles`). 
 <p align="center">
 <img src="./doc/GEE_upload_5.png" alt="drawing" width="300"/>
 </p>
@@ -70,7 +94,7 @@ Once the polygon masks have been generated in Python, they need to be uploaded a
 <img src="./doc/GEE_upload_6.png" alt="drawing" width="400"/>
 </p>
 
-8. Finally, upload the image labels which were saved in /outputs. Click on NEW > CSV file and select the file `outputs/labels_S2.csv` (or Landsat one, they are the same). Call the asset Base_labels.
+8. Finally, upload the image labels which were saved in [/outputs](/outputs). Click on NEW > CSV file and select the file `outputs/labels_S2.csv` (or Landsat one, they are the same). Call the asset `Base_labels`.
 <p align="center">
 <img src="./doc/GEE_upload_7.png" alt="drawing" width="300"/>
 </p>
@@ -78,6 +102,38 @@ Once the polygon masks have been generated in Python, they need to be uploaded a
 You should get a table that relates each unique polygon id to an integer value, like shown below:
 <p align="center">
 <img src="./doc/GEE_upload_8.png" alt="drawing" width="300"/>
+</p>
+</details>
+
+<details id='upload_to_ee_details_2'>
+<summary>Option #2 automated process</summary>
+
+1. Upload polygon masks to Google Cloud Storage (GCS) Buckets.
+
+   (1) Install the [`gcloud`](https://cloud.google.com/sdk/docs/install) CLI accordingly.
+
+   (2) The easiest way is to use [`gcloud storage`](https://cloud.google.com/storage/docs/discover-object-storage-gcloud):
+   ```sh
+   # authenticate gcloud log in, make sure you have the necessary permissions to access the GCS Buckets
+   gcloud auth login
+   gcloud storage cp -m -r -n [LOCAL_PATH] gs://[BUCKET_NAME]/[DESTINATION_PATH]
+   ```
+   __OR__ use [02_Upload_tiles_to_Buckets.ipynb](02_Upload_tiles_to_Buckets.ipynb) to upload the polygon masks.
+
+2. Ingest polygon masks from Buckets into GEE Assets using [Image Manifest Upload](https://developers.google.com/earth-engine/guides/image_manifest).
+
+   (1) [Install the Earth Engine Python client](https://developers.google.com/earth-engine/guides/python_install).
+
+   (2) Create an ImageCollection in GEE. Go to https://code.earthengine.google.com/, sign in and select your cloud project (in this example `nsw-dpe-gee-tst`). Click on NEW > Image Collection and create an image collection for Sentinel-2 (named it `Base_Sentinel2_tiles`) and for Landsat (name it `Base_Landsat_tiles`). 
+   <p align="center">
+   <img src="./doc/GEE_upload_5.png" alt="drawing" width="300"/>
+   </p>
+
+   (3) [03_Ingest_tiles_to_EEAssets.ipynb](./03_Ingest_tiles_to_EEAssets.ipynb): ingest the mask polygons into the created ImageCollection `Base_Sentinel2_tiles` or `Base_Landsat_tiles` with the specified properties for each polygon mask.
+
+3. Upload the image labels which were saved in [/outputs](/outputs). Click on NEW > CSV file and select the file `outputs/labels_S2.csv` (or Landsat one, they are the same). Call the asset `Base_labels`.
+<p align="center">
+<img src="./doc/GEE_upload_7.png" alt="drawing" width="300"/>
 </p>
 </details>
 <br>
@@ -89,7 +145,7 @@ You should get a table that relates each unique polygon id to an integer value, 
 
 Now you are all setup to map water surface area time-series in GEE!
 
-### 3. Run GEE scripts in Code Editor<a name="gee"></a>
+### 4. Run GEE scripts in Code Editor<a name="gee"></a>
 
 The scripts are found in GEE_scripts and can be copied into the Code Editor and run there. They will output a set of CSV files with the time-series of water surface area for each polygon. The following scripts are available:
 1. [WSA_monitoring_S2.js](./GEE_scripts/WSA_monitoring_S2.js): map water surface area on Sentinel-2 images.
@@ -103,7 +159,7 @@ map water surface area on Landsat 5 images.
 Additionally, there is a Python script [WSA_scheduled_cloud_function.js](./GEE_scripts/WSA_scheduled_cloud_function.js) that can be setup as a Cloud Function to process Sentinel-2, Landsat 9 and Landsat 8 imagery as a cron job. 
 
 
-### 4. Postprocess water surface areas<a name="postprocessing"></a>
+### 5. Postprocess water surface areas<a name="postprocessing"></a>
 
 [02_Postprocess_timeseries.ipynb](./02_Postprocess_timeseries.ipynb): notebook to postprocess the time-series of water surface area generated in GEE and includes the following steps:
 - remove outliers using an ad hoc despiking algorithm
