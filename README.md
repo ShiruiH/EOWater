@@ -1,4 +1,4 @@
-# Water surface area time-series from Sentinel-2 and Landat
+# EOWater: Water surface area time-series from Sentinel-2 and Landat
 
 This repository presents an efficient GEE-based solution to mapping water surface area time-series in waterbodies from Landsat and Sentinel-2.
 
@@ -57,7 +57,7 @@ If only a few images need to be uploaded (e.g., fewer than 10), the [Option #1 m
 
 For uploading a large number of images, the [Option #2 automated process](#upload_to_ee_details_2) is more efficient.
 
-(Optional) If polygon masks in GEE Assets need to be removed and re-uploaded. Use [04_Remove_tiles_from_EEAssets.ipynb](./04_Remove_tiles_from_EEAssets.ipynb) to batch remove all tiles.
+(Optional) If polygon masks in GEE Assets need to be removed and re-uploaded. Use [04_Reset_EE_asset_collection.ipynb](./04_Reset_EE_asset_collection.ipynb) to batch remove all tiles.
 
 <details id='upload_to_ee_details_1'>
 <summary>Option #1 manual process</summary>
@@ -94,7 +94,7 @@ For uploading a large number of images, the [Option #2 automated process](#uploa
 <img src="./doc/GEE_upload_6.png" alt="drawing" width="400"/>
 </p>
 
-8. Finally, upload the image labels which were saved in [/outputs](/outputs). Click on NEW > CSV file and select the file `outputs/labels_S2.csv` (or Landsat one, they are the same). Call the asset `Base_labels`.
+8. Finally, upload the image labels which were saved in [/outputs](/outputs). Click on NEW > CSV file and select the file `outputs/labels.csv` (or Landsat one, they are the same). Call the asset `Base_labels`.
 <p align="center">
 <img src="./doc/GEE_upload_7.png" alt="drawing" width="300"/>
 </p>
@@ -118,7 +118,7 @@ You should get a table that relates each unique polygon id to an integer value, 
    gcloud auth login
    gcloud storage cp -m -r -n [LOCAL_PATH] gs://[BUCKET_NAME]/[DESTINATION_PATH]
    ```
-   __OR__ use [02_Upload_tiles_to_Buckets.ipynb](02_Upload_tiles_to_Buckets.ipynb) to upload the polygon masks.
+   __OR__ use [02_Upload_polygon_mask_to_bucket.ipynb](02_Upload_polygon_mask_to_bucket.ipynb) to upload the polygon masks.
 
 2. Ingest polygon masks from Buckets into GEE Assets using [Image Manifest Upload](https://developers.google.com/earth-engine/guides/image_manifest).
 
@@ -129,9 +129,9 @@ You should get a table that relates each unique polygon id to an integer value, 
    <img src="./doc/GEE_upload_5.png" alt="drawing" width="300"/>
    </p>
 
-   (3) [03_Ingest_tiles_to_EEAssets.ipynb](./03_Ingest_tiles_to_EEAssets.ipynb): ingest the mask polygons into the created ImageCollection `Base_Sentinel2_tiles` or `Base_Landsat_tiles` with the specified properties for each polygon mask.
+   (3) [03_Upload_bucket_to_EE_asset.ipynb](./03_Upload_bucket_to_EE_asset.ipynb): ingest the mask polygons into the created ImageCollection `Base_Sentinel2_tiles` or `Base_Landsat_tiles` with the specified properties for each polygon mask.
 
-3. Upload the image labels which were saved in [/outputs](/outputs). Click on NEW > CSV file and select the file `outputs/labels_S2.csv` (or Landsat one, they are the same). Call the asset `Base_labels`.
+3. Upload the image labels which were saved in [/outputs](/outputs). Click on NEW > CSV file and select the file `outputs/labels.csv` (or Landsat one, they are the same). Call the asset `Base_labels`.
 <p align="center">
 <img src="./doc/GEE_upload_7.png" alt="drawing" width="300"/>
 </p>
@@ -161,7 +161,7 @@ Additionally, there is a Python script [WSA_scheduled_cloud_function.js](./GEE_s
 
 ### 5. Postprocess water surface areas<a name="postprocessing"></a>
 
-[02_Postprocess_timeseries.ipynb](./02_Postprocess_timeseries.ipynb): notebook to postprocess the time-series of water surface area generated in GEE and includes the following steps:
+[05_Postprocess_timeseries.ipynb](./05_Postprocess_timeseries.ipynb): notebook to postprocess the time-series of water surface area generated in GEE and includes the following steps:
 - remove outliers using an ad hoc despiking algorithm
 - clip time-series to the total area of the polygon (max area of water)
 The postprocessed time-series are then saved in individual CSV files named with each polygon identifier. A plot is also created for each polygon.
