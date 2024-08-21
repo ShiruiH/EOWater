@@ -2,6 +2,10 @@
 *checkpoint.md
 *.pyc
 *.~
+*.xml
 /inputs
 outputs/plots_area
 outputs/timeseries_area
+outputs/json_manifest
+outputs/polygon_masks
+outputs/water_areas
