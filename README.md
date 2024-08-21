@@ -124,12 +124,7 @@ You should get a table that relates each unique polygon id to an integer value, 
 
    (1) [Install the Earth Engine Python client](https://developers.google.com/earth-engine/guides/python_install).
 
-   (2) Create an ImageCollection in GEE. Go to https://code.earthengine.google.com/, sign in and select your cloud project (in this example `nsw-dpe-gee-tst`). Click on NEW > Image Collection and create an image collection for Sentinel-2 (named it `Base_Sentinel2_tiles`) and for Landsat (name it `Base_Landsat_tiles`). 
-   <p align="center">
-   <img src="./doc/GEE_upload_5.png" alt="drawing" width="300"/>
-   </p>
-
-   (3) [03_Upload_bucket_to_EE_asset.ipynb](./03_Upload_bucket_to_EE_asset.ipynb): ingest the mask polygons into the created ImageCollection `Base_Sentinel2_tiles` or `Base_Landsat_tiles` with the specified properties for each polygon mask.
+   (2) [03_Upload_bucket_to_EE_asset.ipynb](./03_Upload_bucket_to_EE_asset.ipynb): create ImageCollection `Base_Sentinel2_tiles` or `Base_Landsat_tiles`. Ingest the mask polygons into the ImageCollection with the specified properties for each polygon mask.
 
 3. Upload the image labels which were saved in [/outputs](/outputs). Click on NEW > CSV file and select the file `outputs/labels.csv` (or Landsat one, they are the same). Call the asset `Base_labels`.
 <p align="center">
