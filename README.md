@@ -21,7 +21,7 @@ This repository presents an efficient GEE-based solution to mapping water surfac
 
 ## Usage<a name="usage"></a>
 
-### 1. Download Sentinel-2 and Landsat original tiles
+### 1. Download Sentinel-2 and Landsat original tiles<a name="download"></a>
 
 Two downloading options are available:
 
