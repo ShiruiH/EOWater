@@ -47,11 +47,17 @@ bibliography: paper.bib
 
 Sustainable freshwater resources are critical in supporting communities, industry and environmental assets such as wetlands. Government agencies are tasked with planning for and managing water collection, storage and distribution, whilst ensuring these resources are shared equitably. To do so, accurate and continuous monitoring of water availability in natural and man-made reservoirs is paramount to inform sustainable water management strategies.
 
-Publicly available Landsat and Sentinel-2 satellite imagery can be leveraged to provide historical and near real-time information on the state of water resources `@donchyts2022high`  ->  "Donchyts et al. (2022)". Many algoritms exist to map water pixels from multispectral satellite imagery, with software provided with publications often focused on global/continental applications. While these global applications are very impactful, they may not fit with operational requirements, such as providing specific boundaries for waterbodies, customising water index thresholds and selecting cloud mask probability. `EOWater` provides a fully customisable operational workflow to extract water surface areas time-series for user-defined waterbodies in near real-time. The algorithm presented here, based on Python and Javascript scripts using the GEE API, can be efficiently deployed to the cloud and scheduled for a low-cost operational setup. 
+Publicly available Landsat and Sentinel-2 satellite imagery can be leveraged to provide historical and near real-time information on the state of water resources (Donchyts et al., 2022). Many algoritms exist to map water pixels from multispectral satellite imagery, with software provided with publications often focused on global/continental applications. While these global applications are very impactful, they may not fit with operational requirements, such as providing specific boundaries for waterbodies, customising water index thresholds and selecting cloud mask probability. `EOWater` provides a fully customisable operational workflow to extract water surface areas time-series for user-defined waterbodies in near real-time. The algorithm presented here, based on Python and Javascript scripts using the GEE API, can be efficiently deployed to the cloud and scheduled for a low-cost operational setup. 
 
 # Water surface area monitoring
 
 Explain MNDWI index and add a figure with satellite image of a reservoir
+
+<p align="justify">
+<img src="./figure1.jpg" alt="drawing" width="700"/>
+Figure 1. Water surface area detection in a reservoir from a Sentinel-2 satellite image (17 Feb 2017). <strong>a)</strong> Sentinel-2 image at 10 m/pixel with the black line indicating the crest of the reservoir and the red line a 20 m buffer around that crest. <strong>b)</strong> Modified Normalised Difference Index (MNDWI) calculated by downsampling the 20 m/pixel shortwave-infrared (SWIR) to 10 m. <strong>c)</strong> Water pixels inside the buffered reservoir boundary, detected with a 0.1 threshold on MNDWI. <strong>d)</strong> Histogram distribution of the MNDWI pixel values highlighting the water (MNDWI above 0.1) and non-water pixels (MNDWI below 0.1). The water surface area is computed by multiplying the number of water pixels by the pixel resoulution of the image.
+</p>
+
 
 # Main functionalities
 
