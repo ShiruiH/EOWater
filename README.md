@@ -28,14 +28,14 @@ Two downloading options are available:
 <details>
 <summary>Option #1 download from imagery websites</summary>
 
-Visit satellite imagery download websites, such as [USGS](https://earthexplorer.usgs.gov/), to acquire the required Sentinel-2 and Landsat original tiles.
+> Visit satellite imagery download websites, such as [USGS](https://earthexplorer.usgs.gov/), to acquire the required Sentinel-2 and Landsat original tiles.
 
 </details>
 
 <details>
 <summary>Option #2 download using GEE script</summary>
 
-[Download_original_tiles.js](./GEE_scripts/Download_original_tiles.js): Javascript notebook to download orignal tiles. Specify the required tile names in `tileList`.
+> [Download_original_tiles_S2.js](./GEE_scripts/Download_original_tiles_S2.js) and [Download_original_tiles_Landsat.js](./GEE_scripts/Download_original_tiles_Landsat.js): Javascript notebooks to download orignal tiles. Specify the required tile names in `tile_list`.
 
 </details>
 
