@@ -57,7 +57,7 @@ If only a few images need to be uploaded (e.g., fewer than 10), the [Option #1 m
 
 For uploading a large number of images, the [Option #2 automated process](#upload_to_ee_details_2) is more efficient.
 
-(Optional) If polygon masks in GEE Assets need to be removed and re-uploaded. Use [04_Reset_EE_asset_collection.ipynb](./04_Reset_EE_asset_collection.ipynb) to batch remove all tiles.
+*(Optional) If polygon masks in GEE Assets need to be removed and re-uploaded. Use [04_Reset_EE_asset_collection.ipynb](./04_Reset_EE_asset_collection.ipynb) to batch remove all tiles.*
 
 <details id='upload_to_ee_details_1'>
 <summary>Option #1 manual process</summary>
@@ -118,7 +118,7 @@ You should get a table that relates each unique polygon id to an integer value, 
    gcloud auth login
    gcloud storage cp -m -r -n [LOCAL_PATH] gs://[BUCKET_NAME]/[DESTINATION_PATH]
    ```
-   __OR__ use [02_Upload_polygon_mask_to_bucket.ipynb](02_Upload_polygon_mask_to_bucket.ipynb) to upload the polygon masks.
+   __OR__ use [02_Upload_polygon_mask_to_bucket.ipynb](02_Upload_polygon_mask_to_bucket.ipynb) to upload the polygon masks. *This script contains an optional cell to delete all images in the bucket folder. Only run the cell if you need a re-upload.*
 
 2. Ingest polygon masks from Buckets into GEE Assets using [Image Manifest Upload](https://developers.google.com/earth-engine/guides/image_manifest).
 
