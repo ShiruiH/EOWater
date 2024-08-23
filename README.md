@@ -25,19 +25,13 @@ This repository presents an efficient GEE-based solution to mapping water surfac
 
 Two downloading options are available:
 
-<details>
-<summary>Option #1 download from imagery websites</summary>
+- **Option #1**: Download scene from  USGS Earth Explorer
 
-> Visit satellite imagery download websites, such as [USGS](https://earthexplorer.usgs.gov/), to acquire the required Sentinel-2 and Landsat original tiles.
+   Visit[USGS Earth Explorer](https://earthexplorer.usgs.gov/) and download a single scene for the required Sentinel-2 and/or Landsat tiles to cover your area of interest.
 
-</details>
+- **Option #2**: Download scene from  USGS Earth Explorer
 
-<details>
-<summary>Option #2 download using GEE script</summary>
-
-> [Download_original_tiles_S2.js](./GEE_scripts/Download_original_tiles_S2.js) and [Download_original_tiles_Landsat.js](./GEE_scripts/Download_original_tiles_Landsat.js): Javascript notebooks to download orignal tiles. Specify the required tile names in `tile_list`.
-
-</details>
+   Use the [EE Code Editor](https://code.earthengine.google.com/) to download a single scene for the required Sentinel-2 and/or Landsat tiles to cover your area of interest. Use the [Download_original_tiles_S2.js](./GEE_scripts/Download_original_tiles_S2.js) and [Download_original_tiles_Landsat.js](./GEE_scripts/Download_original_tiles_Landsat.js), and specify the variable `tile_list`.
 
 ### 2. Create polygon masks<a name="masks"></a>
 
@@ -112,19 +106,20 @@ You should get a table that relates each unique polygon id to an integer value, 
 
    (1) Install the [`gcloud`](https://cloud.google.com/sdk/docs/install) CLI accordingly.
 
-   (2) The easiest way is to use [`gcloud storage`](https://cloud.google.com/storage/docs/discover-object-storage-gcloud):
+   (2) The easiest way is to use [02_Upload_polygon_mask_to_bucket.ipynb](02_Upload_polygon_mask_to_bucket.ipynb) to upload the polygon masks to a Google Cloud Bucket.
+
+   __OR__ use if you are familiar with this, use directly [`gcloud storage`](https://cloud.google.com/storage/docs/discover-object-storage-gcloud):
    ```sh
    # authenticate gcloud log in, make sure you have the necessary permissions to access the GCS Buckets
    gcloud auth login
    gcloud storage cp -m -r -n [LOCAL_PATH] gs://[BUCKET_NAME]/[DESTINATION_PATH]
    ```
-   __OR__ use [02_Upload_polygon_mask_to_bucket.ipynb](02_Upload_polygon_mask_to_bucket.ipynb) to upload the polygon masks. *This script contains an optional cell to delete all images in the bucket folder. Only run the cell if you need a re-upload.*
 
 2. Ingest polygon masks from Buckets into GEE Assets using [Image Manifest Upload](https://developers.google.com/earth-engine/guides/image_manifest).
 
    (1) [Install the Earth Engine Python client](https://developers.google.com/earth-engine/guides/python_install).
 
-   (2) [03_Upload_bucket_to_EE_asset.ipynb](./03_Upload_bucket_to_EE_asset.ipynb): create ImageCollection `Base_Sentinel2_tiles` or `Base_Landsat_tiles`. Ingest the mask polygons into the ImageCollection with the specified properties for each polygon mask.
+   (2) [03_Upload_bucket_to_EE_asset.ipynb](./03_Upload_bucket_to_EE_asset.ipynb): create an ImageCollection, `Base_Sentinel2_tiles` and/or `Base_Landsat_tiles`. Ingest the polygon masks into the ImageCollection with the specified properties for each polygon mask.
 
 3. Upload the image labels which were saved in [/outputs](/outputs). Click on NEW > CSV file and select the file `outputs/labels.csv` (or Landsat one, they are the same). Call the asset `Base_labels`.
 <p align="center">
