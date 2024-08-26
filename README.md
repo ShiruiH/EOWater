@@ -27,7 +27,7 @@ Two downloading options are available:
 
 - **Option #1**: Download scene from  USGS Earth Explorer
 
-   Visit[USGS Earth Explorer](https://earthexplorer.usgs.gov/) and download a single scene for the required Sentinel-2 and/or Landsat tiles to cover your area of interest.
+   Visit [USGS Earth Explorer](https://earthexplorer.usgs.gov/) and download a single scene for the required Sentinel-2 and/or Landsat tiles to cover your area of interest.
 
 - **Option #2**: Download scene from  USGS Earth Explorer
 
