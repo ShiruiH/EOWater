@@ -46,8 +46,8 @@ def handle_event(event, context):
     # bucketLoc = f'test1/historical/'
 
     # Excute the functions here
-    baseOFS_S2 = ee.ImageCollection('projects/nsw-dpe-gee-tst/assets/Combined_OFS_NWB/Base_Sentinel2_tiles')
-    baseOFS_Landsat = ee.ImageCollection('projects/nsw-dpe-gee-tst/assets/Combined_OFS_NWB/Base_Landsat_tiles')
+    baseOFS_S2 = ee.ImageCollection('projects/nsw-dpe-gee-tst/assets/OFS/Base_Sentinel2_tiles')
+    baseOFS_Landsat = ee.ImageCollection('projects/nsw-dpe-gee-tst/assets/OFS/Base_Landsat_tiles')
 
     # Process for S2 tiles
     for i in range(baseOFS_S2.size().getInfo()):
@@ -183,7 +183,7 @@ def add_mNDWI_landsat(image):
 
 # Prepare labels
 def prep_labels():
-    labelsOFS = ee.FeatureCollection('projects/nsw-dpe-gee-tst/assets/Combined_OFS_NWB/Base_labels')
+    labelsOFS = ee.FeatureCollection('projects/nsw-dpe-gee-tst/assets/OFS/Base_labels')
 
     # Get property names and remove 'system:index'
     labelsOFS_keys = labelsOFS.first().propertyNames().remove('system:index')

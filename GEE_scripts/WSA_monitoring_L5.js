@@ -5,8 +5,8 @@
 ee.data.setDefaultWorkloadTag('ofs-historical-run')
 
 // load assets with basemaps and labels
-var baseOFS = ee.ImageCollection('projects/nsw-dpe-gee-tst/assets/Combined_OFS_NWB/Base_Landsat_tiles');
-var labelsOFS = ee.FeatureCollection('projects/nsw-dpe-gee-tst/assets/Combined_OFS_NWB/Base_labels');
+var baseOFS = ee.ImageCollection('projects/nsw-dpe-gee-tst/assets/OFS/Base_Landsat_tiles');
+var labelsOFS = ee.FeatureCollection('projects/nsw-dpe-gee-tst/assets/OFS/Base_labels');
 
 //MNDWI threshold
 var t_MNDWI = 0.1;
