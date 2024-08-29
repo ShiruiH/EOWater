@@ -37,7 +37,7 @@ Two downloading options are available:
 
 [01_Create_polygon_mask.ipynb](./01_Create_polygon_mask.ipynb): notebook to generate the polygon masks for Landsat and Sentinel-2 tiles using a waterbodies boundaries vector layer.
 
-This creates a .tif file with a mask where each individual polygon is assigned a different value, which allows the process to distinguish them at a raster level.
+The inputs for this script is the Sentinel-2 and Landsat tiles downloaded from [Step 1](#1-download-sentinel-2-and-landsat-original-tiles). The script creates a `.tif` file for each tile with a mask where each individual polygon is assigned a different value, which allows the process to distinguish them at a raster level.
 
 <p align="center">
 <img src="./doc/example_polygon_mask.PNG" alt="drawing" width="500"/>
@@ -47,11 +47,9 @@ This creates a .tif file with a mask where each individual polygon is assigned a
 
 Once the polygon masks have been generated in Python, they need to be uploaded as cloud assets into GEE. You can follow the instructions below to perform this step. Two options are available, with different usage scnarios.
 
-If only a few images need to be uploaded (e.g., fewer than 10), the [Option #1 manual process](#upload_to_ee_details_1) is recommended. This method avoids the need to set up Cloud Storage access authentication.
+If only a few images need to be uploaded (e.g., fewer than 3), the [Option #1 manual process](#upload_to_ee_details_1) is recommended. This method avoids the need to set up Cloud Storage access authentication.
 
 For uploading a large number of images, the [Option #2 automated process](#upload_to_ee_details_2) is more efficient.
-
-*(Optional) If polygon masks in GEE Assets need to be removed and re-uploaded. Use [04_Reset_EE_asset_collection.ipynb](./04_Reset_EE_asset_collection.ipynb) to batch remove all tiles.*
 
 <details id='upload_to_ee_details_1'>
 <summary>Option #1 manual process</summary>
@@ -108,7 +106,7 @@ You should get a table that relates each unique polygon id to an integer value, 
 
    (2) The easiest way is to use [02_Upload_polygon_mask_to_bucket.ipynb](02_Upload_polygon_mask_to_bucket.ipynb) to upload the polygon masks to a Google Cloud Bucket.
 
-   __OR__ use if you are familiar with this, use directly [`gcloud storage`](https://cloud.google.com/storage/docs/discover-object-storage-gcloud):
+   __OR__ if you are familiar with this, use directly [`gcloud storage`](https://cloud.google.com/storage/docs/discover-object-storage-gcloud):
    ```sh
    # authenticate gcloud log in, make sure you have the necessary permissions to access the GCS Buckets
    gcloud auth login
@@ -128,6 +126,8 @@ You should get a table that relates each unique polygon id to an integer value, 
 </details>
 <br>
 
+*(Optional) If polygon masks in GEE Assets need to be removed and re-uploaded. Use [04_Reset_EE_asset_collection.ipynb](./04_Reset_EE_asset_collection.ipynb) to batch remove all tiles.*
+
 :warning: Check that you have these 3 assets uploaded:
 - `Base_Sentinel2_tiles`: image collection of polygon masks for each tile of interest for Sentinel-2.
 - `Base_Landsat_tiles`: image collection of polygon masks for each tile of interest for Landsat.
@@ -146,7 +146,9 @@ map water surface area on Landsat 7 images.
 5. [WSA_monitoring_L5.js](./GEE_scripts/WSA_monitoring_L5.js):
 map water surface area on Landsat 5 images.
 
-Additionally, there is a Python script [WSA_scheduled_cloud_function.js](./GEE_scripts/WSA_scheduled_cloud_function.js) that can be setup as a Cloud Function to process Sentinel-2, Landsat 9 and Landsat 8 imagery as a cron job. 
+The `tileList` in the scripts need to include only the available tiles in `Base_Sentinel2_tiles` or `Base_Landsat_tiles`.
+
+*(Optional) Additionally, there is a Python script [WSA_scheduled_cloud_function.js](./GEE_scripts/WSA_scheduled_cloud_function.js) that can be setup as a Cloud Function to process Sentinel-2, Landsat 9 and Landsat 8 imagery as a cron job.*
 
 
 ### 5. Postprocess water surface areas<a name="postprocessing"></a>
