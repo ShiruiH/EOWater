@@ -1,4 +1,4 @@
-# EOWater: Water surface area time-series from Sentinel-2 and Landat
+# EOWater: Water surface area time-series from Sentinel-2 and Landsat
 
 This repository presents an efficient GEE-based solution to mapping water surface area time-series in waterbodies from Landsat and Sentinel-2.
 
