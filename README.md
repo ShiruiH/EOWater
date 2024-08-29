@@ -146,7 +146,7 @@ map water surface area on Landsat 7 images.
 5. [WSA_monitoring_L5.js](./GEE_scripts/WSA_monitoring_L5.js):
 map water surface area on Landsat 5 images.
 
-The `tileList` in the scripts need to include only the available tiles in `Base_Sentinel2_tiles` or `Base_Landsat_tiles`.
+The `tileList` in the scripts needs to include only the available tiles in `Base_Sentinel2_tiles` or `Base_Landsat_tiles`.
 
 *(Optional) Additionally, there is a Python script [WSA_scheduled_cloud_function.js](./GEE_scripts/WSA_scheduled_cloud_function.js) that can be setup as a Cloud Function to process Sentinel-2, Landsat 9 and Landsat 8 imagery as a cron job.*
 
