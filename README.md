@@ -1,10 +1,16 @@
-# EOWater: Water surface area time-series from Sentinel-2 and Landsat
+# EOWater: Water surface area time-series from Sentinel-2 and Landsat in GEE
 
 This repository presents an efficient GEE-based solution to mapping water surface area time-series in waterbodies from Landsat and Sentinel-2.
 
 <p align="center">
 <img src="./doc/example_time-series.png" alt="drawing" width="700"/>
 </p>
+  
+> *The development of this tool was supported through funding from the Australian Government ([Murray-Darling Basin Authority](https://www.mdba.gov.au/)).*
+
+> *The tool was developed jointly by the [NSW Department of Climate Change, Energy, the Environment and Water](https://water.dpie.nsw.gov.au/) and [NGIS](https://ngis.com.au/).*
+
+> *The tool is currently maintained by @ShiruiH and @kvos.*
 
 ### Table of Contents
 
@@ -18,6 +24,18 @@ This repository presents an efficient GEE-based solution to mapping water surfac
 - [References and Datasets](#references)
 
 ## Installation<a name="instructions"></a>
+
+To use this tool you will need access to a Google Earth Engine (GEE) project. You can create one at https://signup.earthengine.google.com/. Then go to https://cloud.google.com/sdk/docs/install and install the `gcloud CLI`. After you have installed it will automatically launch and let you authenticate with your GEE account (or personal gmail).
+
+To install the Python environment, install Anaconda (https://www.anaconda.com/download/). Then open the Anaconda Prompt and type in the following commands:
+```
+conda create -n eowater
+conda activate eowater
+conda install -c conda-forge geopandas -y
+conda install -c conda-forge earthengine-api scikit-image rasterio matplotlib notebook folium -y
+```
+
+Then type `jupyter lab` and navigate to the notebooks in this repository.
 
 ## Usage<a name="usage"></a>
 
@@ -180,3 +198,5 @@ A fork is a copy on which you can make your changes.
 ## References and Datasets<a name="references"></a>
 
 This section provides a list of references on this topic.
+
+1. Public talk presenting the water monitoring tool by Mustak Shaikh and Kilian Vos: [VIMEO recording](https://vimeo.com/1001028757?turnstile=0.KV97-MBZR7ZNe4XZqkMKWvSgZosQyA8f-Ys_qPP1j4clj_4njzgSDIZjGPhXfjgWEx-NADAwnReKGIeaCKDn_yyd1HiFtS5LfMMdKv_kxVg525JhyyCL41K_H_V3cxdM03mKXMWlrtD4xFh-WrGamqcP32zr7abmDuhjqjpDgoVn87SFvl1OU4PkoAy-Cct9DpLd1d2Gjf37d1rKeS0MqxXHcJFsSWwF2HUeLSBYEurhy8tM_947AcMd5Jvd56fofDBl1tPsRI3YPPYNlOqKBn786aEXdOM3oXohulw70Q6EI-LNudUVCTFTG4nC-QEU52C26vnABeJinvVkyxeMvibydamGV7JOI7rAXd4NbJixK-W1KvWXHT64-3TQitQXA4eK6INPjQhoR5m3zaspycgilHF-7UztAVvmHxzbqv4.iWb4vBFbgvoEYjneA0fRxw.b65317a0d0e39271d5dffdcbac144e1e48de34d21b229d1c16274f9eb895aeee) (from minute 19:10)
