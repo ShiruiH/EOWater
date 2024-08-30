@@ -53,7 +53,7 @@ Two downloading options are available:
 
 ### 2. Create polygon masks<a name="masks"></a>
 
-[01_Create_polygon_mask.ipynb](./01_Create_polygon_mask.ipynb): notebook to generate the polygon masks for Landsat and Sentinel-2 tiles using a waterbodies boundaries vector layer.
+[01_Create_polygon_mask.ipynb](./01_Create_polygon_mask.ipynb): notebook to generate the polygon masks for Landsat and Sentinel-2 tiles using a waterbodies boundaries vector layer. A set of input polygon boundaries are provided in the repo for the NSW Northern Basin as an example in [waterbodies_boundaries.geojson](https://github.com/ShiruiH/EOWater/blob/main/inputs/waterbodies_boundaries.geojson), courtesy of the [National Resources Access Regulator (NRAR)](https://www.nrar.nsw.gov.au/).
 
 The inputs for this script is the Sentinel-2 and Landsat tiles downloaded from [Step 1](#1-download-sentinel-2-and-landsat-original-tiles). The script creates a `.tif` file for each tile with a mask where each individual polygon is assigned a different value, which allows the process to distinguish them at a raster level.
 
