@@ -10,6 +10,8 @@ This repository presents an efficient GEE-based solution to mapping water surfac
 
 > *The tool was developed jointly by the [NSW Department of Climate Change, Energy, the Environment and Water](https://water.dpie.nsw.gov.au/) and [NGIS](https://ngis.com.au/).*
 
+> *The tool is also available through [The SEED Initiative](https://www.seed.nsw.gov.au/) and can be accessed via the [remote-sensing-earth-observation-water-toolkit](https://datasets.seed.nsw.gov.au/dataset/remote-sensing-earth-observation-water-toolkit).*
+
 > *The tool is currently maintained by @ShiruiH and @kvos.*
 
 ### Table of Contents
