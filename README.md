@@ -1,6 +1,12 @@
-# EOWater: Water surface area time-series from Sentinel-2 and Landsat in GEE
+# EOWater: efficient cloud computing of water surface area time-series from Sentinel-2 and Landsat in GEE
 
-This repository presents an efficient GEE-based solution to mapping water surface area time-series in waterbodies from Landsat and Sentinel-2.
+This repository presents an efficient GEE-based solution for mapping water surface area time-series in waterbodies from Landsat and Sentinel-2 imagery. 
+ 
+While many solutions exist to map waterbodies, this toolkit presents the following advantages:
+- **flexibility**: allows users to input their own set of polygons 
+- **cost-effective**: is based solely on raster operations, significantly reducing the cost of cloud computations (avoiding the high computational cost of processing vectors with many vertices)
+- **cloud masking**: uses state-of-the-art cloud masking algorithms (s2cloudless) to maximise the temporal depth of the extracted time-series
+- **live monitoring**: can be set up as a near-real time monitoring workflow almost free of cost in a GEE/GCP environment (with Cloud Run function and Cloud Scheduler)
 
 <p align="center">
 <img src="./doc/example_time-series.png" alt="drawing" width="700"/>
@@ -10,7 +16,7 @@ This repository presents an efficient GEE-based solution to mapping water surfac
 
 > *The tool was developed jointly by the [NSW Department of Climate Change, Energy, the Environment and Water](https://water.dpie.nsw.gov.au/) and [NGIS](https://ngis.com.au/).*
 
-> *The tool is also available through [The SEED Initiative](https://www.seed.nsw.gov.au/) and can be accessed via the [remote-sensing-earth-observation-water-toolkit](https://datasets.seed.nsw.gov.au/dataset/remote-sensing-earth-observation-water-toolkit).*
+> *The toolkit is also catalogued in the [SEED Portal]([https://www.seed.nsw.gov.au/](https://datasets.seed.nsw.gov.au/organization/nsw-department-of-climate-change-energy-the-environment-and-water)) as the [remote-sensing-earth-observation-water-toolkit](https://datasets.seed.nsw.gov.au/dataset/remote-sensing-earth-observation-water-toolkit).*
 
 > *The tool is currently maintained by @ShiruiH and @kvos.*
 
