@@ -8,7 +8,7 @@ tags:
   - water resources management
 authors:
   - name: Shirui Hao
-    orcid: 0000-0000-0000-0000
+    orcid: 0000-0002-2560-0550
     corresponding: true
     equal-contrib: true
     affiliation: 1 # (Multiple affiliations must be quoted)
@@ -45,15 +45,27 @@ bibliography: paper.bib
 
 # Statement of need
 
-Sustainable freshwater resources are critical in supporting communities, industry and environmental assets such as wetlands. Government agencies are tasked with planning for and managing water collection, storage and distribution, whilst ensuring these resources are shared equitably. To do so, accurate and continuous monitoring of water availability in natural and man-made reservoirs is paramount to inform sustainable water management strategies.
+Sustainable freshwater resources are essential for supporting communities, industries and environmental assets such as wetlands. Government agencies are tasked with planning, managing water collection, storage, and distribution, and ensuring equitable sharing of these resources. Moreover, with climate change exacerbating water scarcity, accurate and timely monitoring of water availability in both natural and man-made reservoirs is critical for informing sustainable water management strategies.
 
-Publicly available Landsat and Sentinel-2 satellite imagery can be leveraged to provide historical and near real-time information on the state of water resources (Donchyts et al., 2022, Fuentes et al. 2021, Krause et al. 2021). Many algoritms exist to map water pixels from multispectral satellite imagery, with software provided with publications often focused on global/continental applications. While these global applications are very impactful, they may not fit with operational requirements, such as providing specific boundaries for waterbodies, customising water index thresholds and selecting cloud mask probability. `EOWater` provides a fully customisable operational workflow to extract water surface areas time-series for user-defined waterbodies in near real-time. The algorithm presented here, based on Python and Javascript scripts using the GEE API, can be efficiently deployed to the cloud and scheduled for a low-cost operational setup. 
+Publicly available Landsat and Sentinel-2 satellite imagery can be leveraged to provide historical and near real-time information on the state of water resources [@donchyts2022high; @fuentes2021volume; @krause2021emerging]. Many algoritms exist to map water pixels from multispectral satellite imagery, with software provided with publications often focused on global/continental applications. While these global applications are very impactful, they may not fit with operational requirements, such as providing specific boundaries for waterbodies, customising water index thresholds and selecting cloud mask probability. `EOWater` provides a fully customisable operational workflow to extract water surface areas time-series for user-defined waterbodies in near real-time. The algorithm presented here, based on Python and Javascript scripts using the GEE API, can be efficiently deployed to the cloud and scheduled for a low-cost operational setup. 
 
 # Water surface area monitoring
 
-Add MNDWI equation (cite paper for MNDWI)
-Explain 0.1 MNDWI threshold
-Explain 20 m buffer around storage boundary
+- Add MNDWI equation (cite paper for MNDWI)
+- Explain 0.1 MNDWI threshold
+- Explain 20 m buffer around storage boundary
+
+The Modified Normalised Difference Water Index (MNDWI) was applied to detect water surface area [@xu2006modification]. The MNDWI is calculated as follows:
+
+$$
+NDWI = \frac{Green - SWIR}{Green + SWIR}
+$$
+
+where *Green* represents the green spectral band, and *SWIR* denotes the shortwave infrared band, such as Sentinel-2 Band 11, Landsat 5/7 Band 5, and Landsat 8/9 Band 6.
+
+The MNDWI threshold was set to 0.1 to distinguish water from non-water pixels. This threshold was determined using the Otsu method [@otsu1975threshold], applied to long-term Sentinel-2 imagery **(TODO: how many images we have used to test this?)**. A fixed threshold, rather than an adaptive threshold, was used as it was shown to provide accurate identification of water and non-water pixels while reducing computational costs, as the threshold does not need to be recalculated for each image during processing on cloud.
+
+A 20 m buffer was added to each reservoir polygon to incorporate georeferencing errors **(TODO: citations)**. **TODO: more to add here**
 
 <p align="justify">
 <img src="./figure1.jpg" alt="drawing" width="700"/><br>
@@ -62,6 +74,11 @@ Figure 1. Water surface area detection in a reservoir from a Sentinel-2 satellit
 
 
 # Efficient cloud computing process
+
+<p align="justify">
+<img src="./figure2.jpg" alt="drawing" width="700"/><br>
+Figure 2. Raster-based operation workflow.
+</p>
 
 ## Water and Cloud masking
 
