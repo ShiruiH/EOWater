@@ -51,20 +51,15 @@ Publicly available Landsat and Sentinel-2 satellite imagery can be leveraged to 
 
 # Water surface area monitoring
 
-- Add MNDWI equation (cite paper for MNDWI)
-- Explain 0.1 MNDWI threshold
-- Explain 20 m buffer around storage boundary
-
-The Modified Normalised Difference Water Index (MNDWI) was applied to detect water surface area [@xu2006modification]. The MNDWI is calculated as follows:
+Publicly available satellite imagery from Landsat 5, Landsat 7, Landsat 8, Landsat 9 and Sentinel-2 is used to map water surface areas. The Top-of-Atmosphere (TOA) collections are selected to maximise temporal depth compared to Surface Reflectance products. The Modified Normalised Difference Water Index (MNDWI) was applied to detect water surface area [@xu2006modification] on individual satellite images. The MNDWI is calculated as follows:
 
 $$
-NDWI = \frac{Green - SWIR}{Green + SWIR}
+MNDWI = \frac{Green - SWIR}{Green + SWIR}
 $$
 
-where *Green* represents the green spectral band, and *SWIR* denotes the shortwave infrared band, such as Sentinel-2 Band 11, Landsat 5/7 Band 5, and Landsat 8/9 Band 6.
+where *Green* represents the green spectral band, and *SWIR* denotes the shortwave infrared band, such as Sentinel-2 Band 11, Landsat 5/7 Band 5, and Landsat 8/9 Band 6. For Landsat the MNDWI is calculated at 30 m/pixel, while for Sentinel-2 it is calculated at 10 m/pixel by using the *Green* band and downsampling the *SWIR* band from 20 m to 10 m by bilinear interpolation. The MNDWI threshold to distinguish water from non-water pixels is set to 0.1. To select this threshold, an Otsu threshold [@otsu1975threshold] was applied to a balanced water/non water distributions of pixels across 30 waterbodies and 8 years of available Sentinel-2 imagery (more than 10,000 images). From the 10,000 thresholds, the mean was found to be at 0.1. Hence, a fixed threshold, rather than an adaptive threshold, was used as it was shown to provide accurate identification of water and non-water pixels while reducing computational costs, as the threshold does not need to be recalculated for each image (which uses a lot of cloud computing resources).
 
-The MNDWI threshold was set to 0.1 to distinguish water from non-water pixels. This threshold was determined using the Otsu method [@otsu1975threshold], applied to long-term Sentinel-2 imagery **(TODO: how many images we have used to test this?)**. A fixed threshold, rather than an adaptive threshold, was used as it was shown to provide accurate identification of water and non-water pixels while reducing computational costs, as the threshold does not need to be recalculated for each image during processing on cloud.
-
+The boundaries of the polygons ...
 A 20 m buffer was added to each reservoir polygon to incorporate georeferencing errors **(TODO: citations)**. **TODO: more to add here**
 
 <p align="justify">
