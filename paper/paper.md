@@ -70,21 +70,33 @@ Figure 1. Water surface area detection in a reservoir from a Sentinel-2 satellit
 
 # Efficient cloud computing process
 
+The efficient cloud computing workflow consists of nine steps (Figure 2). The first four steps involve preparing the satellite imagery, quality control masks, water surface area detection, and the creation of rasterised polygon layers. The following five steps retrieve the quality-controled time-series water surface area from available satellite images and generate the final results.
+
 <p align="justify">
-<img src="./figure2.jpg" alt="drawing" width="700"/><br>
+<img src="./figure2.jpg" alt="drawing" width="800"/><br>
 Figure 2. Raster-based operation workflow.
 </p>
 
 ## Water and Cloud masking
 
-Explain how water masks are generated
-Explain how cloud masks are generated (311 QA_PIXEL and s2cloudless prob < 0.4>)
-No images are filtered out from the collection
+- Explain how water masks are generated
+- Explain how cloud masks are generated (311 QA_PIXEL and s2cloudless prob < 0.4>)
+- No images are filtered out from the collection
+
+The generation of quality control masks (Step 2 in Figure 2) accounted for cloud contamination and scan line gaps in Landsat 7 imagery. The COPERNICUS/S2_CLOUD_PROBABILITY dataset (s2cloudless) was used to mask clouds in Sentinel-2 imagery, with any pixel having a cloud probability greater than 40% marked as cloudy. In the Landsat dataset, the QA_PIXEL and QA_RADSAT bands were used to mask cloudy pixels. Both cloudy pixels and those affected by the Landsat 7 scan line issue were assigned a value of -1.
+
+The generation of the water mask (Step 3 in Figure 2) was based on the binary water surface layer calculated using the MNDWI with a threshold of 0.1. Any pixel with an MNDWI value $\geq$ 0.1 was assgined a value of 1.
+
+These two steps jointly generate an observation layer for each available satellite image, which can then be combined with the raster base layer to retrieve the water surface area.
 
 ## Raster-based processing
 
-Explain creation of raster masks (refer to notebook)
-Explain raster operations (only sum and subtraction of rasters)
+- Explain creation of raster masks (refer to notebook)
+- Explain raster operations (only sum and subtraction of rasters)
+
+**TODO (kvos):** The creation of raster masks (Step 4 in Figure 2) ...
+
+The observation layer and the raster base layer can then be added pixel by pixel to generate the overlay layer, which can be used to determine the quality-controled water surface area. Firstly is to confirm the cloud or scan line gaps affected water surface area. Any pixel that shows a pixel value of (5 multiples - 1)
 
 ## Scheduling and Post-processing
 
