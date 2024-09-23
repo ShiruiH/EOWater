@@ -96,12 +96,16 @@ These two steps jointly generate an observation layer for each available satelli
 
 **TODO (kvos):** The creation of raster masks (Step 4 in Figure 2) ...
 
-The observation layer and the raster base layer can then be added pixel by pixel to generate the overlay layer, which can be used to determine the quality-controled water surface area. Firstly is to confirm the cloud or scan line gaps affected water surface area. Any pixel that shows a pixel value of (5 multiples - 1)
+The observation layer and the raster base layer were added pixel by pixel to generate an overlay layer, which serves to determine the quality-controlled water surface area. The first step is to verify whether clouds or scan line gaps affect the water surface area. Any water surface area containing pixels with values of (multiples of 5 - 1) should be excluded from further analysis. The next step is to determine the actual water surface area. Pixels with values of (multiples of 5 + 1) should be identified, and the number of these pixels, along with their corresponding area IDs, should be recorded. Finally, the empty water surface area should be confirmed. For any area where all pixels have values that are exact multiples of 5, the area ID should be recorded, and its water surface area should be recorded as zero. All identified area IDs and their corresponding areas were then recorded to generate the final results table.
 
 ## Scheduling and Post-processing
 
-Explain how to schedule to output in cloud buckets
-Explain how to post-process from cloud buckets
+- Explain how to schedule to output in cloud buckets
+- Explain how to post-process from cloud buckets
+
+The functionality described above was encoded into a series of Python scripts, which can be deployed in Google Cloud Functions. By enabling an event handler function, the scripts can be triggered by a Cloud Scheduler to run regularly. In this case, the Cloud Scheduler was configured to trigger the scripts to execute weekly. Results for each week were output to Google Cloud Platform Buckets for storage and further process.
+
+**TODO (kvos): the post-process from cloud buckets**
 
 ## Example application in the Murray-Darling Basin
 
