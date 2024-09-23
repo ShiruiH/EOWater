@@ -208,3 +208,4 @@ A fork is a copy on which you can make your changes.
 This section provides a list of references on this topic.
 
 1. Public talk presenting the water monitoring tool by Mustak Shaikh and Kilian Vos: [VIMEO recording](https://vimeo.com/1001028757?turnstile=0.KV97-MBZR7ZNe4XZqkMKWvSgZosQyA8f-Ys_qPP1j4clj_4njzgSDIZjGPhXfjgWEx-NADAwnReKGIeaCKDn_yyd1HiFtS5LfMMdKv_kxVg525JhyyCL41K_H_V3cxdM03mKXMWlrtD4xFh-WrGamqcP32zr7abmDuhjqjpDgoVn87SFvl1OU4PkoAy-Cct9DpLd1d2Gjf37d1rKeS0MqxXHcJFsSWwF2HUeLSBYEurhy8tM_947AcMd5Jvd56fofDBl1tPsRI3YPPYNlOqKBn786aEXdOM3oXohulw70Q6EI-LNudUVCTFTG4nC-QEU52C26vnABeJinvVkyxeMvibydamGV7JOI7rAXd4NbJixK-W1KvWXHT64-3TQitQXA4eK6INPjQhoR5m3zaspycgilHF-7UztAVvmHxzbqv4.iWb4vBFbgvoEYjneA0fRxw.b65317a0d0e39271d5dffdcbac144e1e48de34d21b229d1c16274f9eb895aeee) (from minute 19:10)
+2. Methodology intro by Shirui Hao: [EOWater methodology on YouTube](https://youtu.be/A-KkdOnq7VE)
