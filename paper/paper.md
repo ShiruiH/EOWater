@@ -57,63 +57,88 @@ $$
 MNDWI = \frac{Green - SWIR}{Green + SWIR}
 $$
 
-where *Green* represents the green spectral band, and *SWIR* denotes the shortwave infrared band, such as Sentinel-2 Band 11, Landsat 5/7 Band 5, and Landsat 8/9 Band 6. For Landsat the MNDWI is calculated at 30 m/pixel, while for Sentinel-2 it is calculated at 10 m/pixel by using the *Green* band and downsampling the *SWIR* band from 20 m to 10 m by bilinear interpolation. The MNDWI threshold to distinguish water from non-water pixels is set to 0.1. To select this threshold, an Otsu threshold [@otsu1975threshold] was applied to a balanced water/non water distributions of pixels across 30 waterbodies and 8 years of available Sentinel-2 imagery (more than 10,000 images). From the 10,000 thresholds, the mean was found to be at 0.1. Hence, a fixed threshold, rather than an adaptive threshold, was used as it was shown to provide accurate identification of water and non-water pixels while reducing computational costs, as the threshold does not need to be recalculated for each image (which uses a lot of cloud computing resources).
+where *Green* represents the green spectral band, and *SWIR* denotes the shortwave infrared band, such as Sentinel-2 Band 11, Landsat 5/7 Band 5, and Landsat 8/9 Band 6. For Landsat the MNDWI is calculated at 30 m/pixel, while for Sentinel-2 it is calculated at 10 m/pixel by using the *Green* band and downsampling the *SWIR* band from 20 m to 10 m by bilinear interpolation. The MNDWI threshold to distinguish water from non-water pixels is set to 0.1. To select this threshold, an Otsu threshold [@otsu1975threshold] was applied to a balanced water/non water distributions of pixels across 30 waterbodies and 8 years of available Sentinel-2 imagery (more than 10,000 images). From the 10,000 thresholds, the mean was found to be at 0.1. Hence, a fixed threshold, rather than an adaptive threshold, was used as it was shown to provide accurate identification of water and non-water pixels while reducing computational costs, as the threshold does not need to be recalculated for each image, which uses substantial cloud computing resources.
 
-The boundaries of the polygons ...
-A 20 m buffer was added to each reservoir polygon to incorporate georeferencing errors **(TODO: citations)**. **TODO: more to add here**
+Figure 1 shows an example on-farm storage illustrating the MNDWI pixel distribution and how a 0.1 threshold identifies wet pixels. To account for georeferencing errors in the satellite imagery, a buffer of 20 m was applied around each polygon. This allows the image to wobble +-20 m while the wet pixels are still accounted inside the boundary.
 
 <p align="justify">
 <img src="./figure1.jpg" alt="drawing" width="700"/><br>
 Figure 1. Water surface area detection in a reservoir from a Sentinel-2 satellite image (17 Feb 2017). <strong>a)</strong> Sentinel-2 image at 10 m/pixel with the black line indicating the crest of the reservoir and the red line a 20 m buffer around that crest. <strong>b)</strong> Modified Normalised Difference Index (MNDWI) calculated by downsampling the 20 m/pixel shortwave-infrared (SWIR) to 10 m. <strong>c)</strong> Water pixels inside the buffered reservoir boundary, detected with a 0.1 threshold on MNDWI. <strong>d)</strong> Histogram distribution of the MNDWI pixel values highlighting the water (MNDWI above 0.1) and non-water pixels (MNDWI below 0.1). The water surface area is computed by multiplying the number of water pixels by the pixel resoulution of the image.
 </p>
 
+The next section describes how this methodology is deployed efficiently in a cloud computing environment. 
+
 
 # Efficient cloud computing process
 
-The efficient cloud computing workflow consists of nine steps (Figure 2). The first four steps involve preparing the satellite imagery, quality control masks, water surface area detection, and the creation of rasterised polygon layers. The following five steps retrieve the quality-controled time-series water surface area from available satellite images and generate the final results.
+Once the methodology to map water surface areas has been developed and tested, it needs to be deployed in a cloud computing environment so that it can be scaled up across large spatio-temporal scales. In this toolbox we use the Google Earth Engine (GEE) (GORELICK citation) environment but the same concepts can be replicated on other platforms (Open Data Cube, Microsoft Planetary Computer, etc).
+
+The main concept behind this cloud implementation is to perform all the steps describe above (Figure 1) uniquely in the raster space. In fact, GEE and other image processing cloud platforms are optimised for performing raster operations so it is best practice to avoid vector operations. In the following section, we demonstrate how this water mapping methodology can be implemented by only performing sums of rasters. The full workflow is illustrated in Figure 2 and consists of nine steps.
+
+The first step is to retrieve the Landsat and Sentinel-2 image collections and filter them by tile (no cloud filtering is applied to the image collections). Then, for each scene in the collection, 2 binary images are created: 
+1) a *cloud mask*, including no data pixels
+2) a *water mask* computed as MNDWI > 0.1
+Then the *cloud mask* is subtracted from the *water mask* to create the *observation raster* which contains +1 values for 'water' pixels and -1 values for 'cloud' pixels, the rest being 0s.
+
+The *observation raster* is then combined with a *polygon mask* that is created once for each tile by rasterising the polygon boundaries, buffered by 20 m, onto the pixel grid of each tile and assigning a special label to the pixels belonging to each polygon.
+
+As each *observation raster* is summed with the *polygon mask*, just by looking at the pixel values we can easily determine which polygons are not affected by clouds and how many water pixels they contain.
+
+These steps are described in more details in the following sections.
 
 <p align="justify">
 <img src="./figure2.jpg" alt="drawing" width="800"/><br>
-Figure 2. Raster-based operation workflow.
+Figure 2. Flowchart illustrating the raster-based water surface area mapping workflow. Water surface areas for each polygon are extracted by solely computing sums of rasters and keeping track of special pixel values that identify each polygon, whether each polygon has water or is dry and whether each polygon contains cloud/no data pixels.
 </p>
 
 ## Water and Cloud masking
 
-- Explain how water masks are generated
-- Explain how cloud masks are generated (311 QA_PIXEL and s2cloudless prob < 0.4>)
-- No images are filtered out from the collection
+The generation of *cloud mask* (Step 2 in Figure 2) includes cloud pixels and scan line gaps in Landsat 7 imagery. The COPERNICUS/S2_CLOUD_PROBABILITY dataset (s2cloudless) is used to mask clouds in Sentinel-2 imagery, with any pixel having a cloud probability greater than 40% marked as cloudy. In the Landsat dataset, the QA_PIXEL and QA_RADSAT bands are used to mask cloudy and low-quality pixels. Both cloudy pixels and no data pixels (affected by the Landsat 7 scan line correction error) are assigned a value of -1.
 
-The generation of quality control masks (Step 2 in Figure 2) accounted for cloud contamination and scan line gaps in Landsat 7 imagery. The COPERNICUS/S2_CLOUD_PROBABILITY dataset (s2cloudless) was used to mask clouds in Sentinel-2 imagery, with any pixel having a cloud probability greater than 40% marked as cloudy. In the Landsat dataset, the QA_PIXEL and QA_RADSAT bands were used to mask cloudy pixels. Both cloudy pixels and those affected by the Landsat 7 scan line issue were assigned a value of -1.
+The generation of the *water mask* (Step 3 in Figure 2) is obtained by applying a threshold of 0.1 to the MNDWI image. Any pixel with an MNDWI value $\geq$ 0.1 is assgined a value of +1.
 
-The generation of the water mask (Step 3 in Figure 2) was based on the binary water surface layer calculated using the MNDWI with a threshold of 0.1. Any pixel with an MNDWI value $\geq$ 0.1 was assgined a value of 1.
+The two masks are then added together to generate an *observation layer* for each available satellite image.
 
-These two steps jointly generate an observation layer for each available satellite image, which can then be combined with the raster base layer to retrieve the water surface area.
+## Polygon masks
 
-## Raster-based processing
+A single *polygon mask* is created for each Landsat and Sentinel-2 tile and used subsequently to process the entire time-series of *observation rasters*. The *polygon mask* is generated by buffering each polygon boundary by 20 m and rasterising it. Then the pixels from each polygon are assigned a special value, in this case a multiple of 5. These special values allows us to keep track of which pixel belongs to which polygon. For example polygon ID 1 is assigned a value of 5, polygon ID 2 a value of 10 and so on and so forth. The result is a raster with special values where the polygons are located and 0s elsewhere. A look-up table is also created that relates each polygon ID to its special pixel value.
 
-- Explain creation of raster masks (refer to notebook)
-- Explain raster operations (only sum and subtraction of rasters)
+## Water surface area extraction
 
-**TODO (kvos):** The creation of raster masks (Step 4 in Figure 2) ...
+To extract the water surface area inside each polygon, the *polygon mask* is added to the *observation raster* for each date. Then, by looking at the pixel values, the following steps can be completed (see Figure 2):
+- discard cloud affected polygons (if one or more cloud pixels are inside the polygon): *pixels = special value - 1*
+- extract water pixels in non-cloud affected polygons: *pixels = special value + 1*
+- extract empty polygons (no water): *pixels = special value*  
+- assign a water surface area to each polygon for each date (if affected by cloud a NaN value is added)
 
-The observation layer and the raster base layer were added pixel by pixel to generate an overlay layer, which serves to determine the quality-controlled water surface area. The first step is to verify whether clouds or scan line gaps affect the water surface area. Any water surface area containing pixels with values of (multiples of 5 - 1) should be excluded from further analysis. The next step is to determine the actual water surface area. Pixels with values of (multiples of 5 + 1) should be identified, and the number of these pixels, along with their corresponding area IDs, should be recorded. Finally, the empty water surface area should be confirmed. For any area where all pixels have values that are exact multiples of 5, the area ID should be recorded, and its water surface area should be recorded as zero. All identified area IDs and their corresponding areas were then recorded to generate the final results table.
+A final CSV file is created with each polygon ID, date and corresponding water surface area.
+
+This process is highly efficient as we were able to extract water surface areas for each polygon using solely sums of rasters.
 
 ## Scheduling and Post-processing
 
-- Explain how to schedule to output in cloud buckets
-- Explain how to post-process from cloud buckets
-
-The functionality described above was encoded into a series of Python scripts, which can be deployed in Google Cloud Functions. By enabling an event handler function, the scripts can be triggered by a Cloud Scheduler to run regularly. In this case, the Cloud Scheduler was configured to trigger the scripts to execute weekly. Results for each week were output to Google Cloud Platform Buckets for storage and further process.
-
-**TODO (kvos): the post-process from cloud buckets**
+The workflow described above was encoded into a series of Python scripts, which can be deployed in Google Cloud Run Functions. By enabling an event handler function, the scripts can be triggered by a Cloud Scheduler to run regularly (e.g., on a weekly basis). The outputs for each run are then saved in Google Cloud buckets for storage and further processing.
 
 ## Example application in the Murray-Darling Basin
 
-Show example for 1 S2 tile in Northern Basin (the one in the notebook)
+To demonstrate the capabilities of this workflow to monitor water surface areas over large spatial scales, an example over the Northern Murray Darling Basin in New South Wales, Australia, is presented here. The area of interest contains 1260 polygons over a region that encompasses 14 Landsat tiles and 17 Sentinel-2 tiles. 
+
+By running the scripts included in this Github repository, we were able to extract water surface areas over the last 38 years from all available Landsat 5, 7, 8, 9 and Sentinel-2 images. Once deployed in GEE, the task took 1 hour to run and used limited computation resources (several order of magnitudes less than if we had used vector operations to find how many wet pixels are inside each geometry). This is because this workflow uses a single *polygon mask* for all dates and do not need to process the vector data with millions of vertices at each timestep.
+
+Finally, the `EOWater` toolkit enables users to postproces their water surface area time-series and generate an interactive Leaflet map with all the spatio-temporal data. In those maps, the users can click on a polygon and it will display the time-series of water surface area in that polygon, including an error band calculated assuming that there is half-a-pixel error along the water edge (this assumption can be edited in the code).
+
+<p align="justify">
+<img src="./figure3.png" alt="drawing" width="800"/><br>
+Figure 3. Example output map for NSW Northern Murray Darling Basin. It provides an interactive Leaflet map where the user can click on a polygon and display the time-series of water surface area inside that polygon.
+</p>
 
 # Conclusion
 
 3-4 dot points on usefulness of this toolkit for water resources management.
+
+- Efficient and low-cost software for large-scale monitoring of water surface areas over days to decades.
+- Novel raster-based methodology using special pixel values and avoiding the computational burden of processing vector data.
+- End-to-end workflow that produces maps of water surface areas ready-to-use by end users and can be scheduled for live monitoring.
 
 # Acknowledgements
 
@@ -121,44 +146,4 @@ This work was funded by the Hydrometric Networks and Remote Sensing Program, Mur
 
 # References
 
-
-# Mathematics
-
-Single dollars ($) are required for inline mathematics e.g. $f(x) = e^{\pi/x}$
-
-Double dollars make self-standing equations:
-
-$$\Theta(x) = \left\{\begin{array}{l}
-0\textrm{ if } x < 0\cr
-1\textrm{ else}
-\end{array}\right.$$
-
-You can also use plain \LaTeX for equations
-\begin{equation}\label{eq:fourier}
-\hat f(\omega) = \int_{-\infty}^{\infty} f(x) e^{i\omega x} dx
-\end{equation}
-and refer to \autoref{eq:fourier} from text.
-
-# Citations
-
-Citations to entries in paper.bib should be in
-[rMarkdown](http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html)
-format.
-
-If you want to cite a software repository URL (e.g. something on GitHub without a preferred
-citation) then you can do it with the example BibTeX entry below for @fidgit.
-
-For a quick reference, the following citation commands can be used:
-- `@author:2001`  ->  "Author et al. (2001)"
-- `[@author:2001]` -> "(Author et al., 2001)"
-- `[@author1:2001; @author2:2001]` -> "(Author1 et al., 2001; Author2 et al., 2002)"
-
-# Figures
-
-Figures can be included like this:
-![Caption for example figure.\label{fig:example}](figure.png)
-and referenced from text using \autoref{fig:example}.
-
-Figure sizes can be customized by adding an optional second parameter:
-![Caption for example figure.](figure.png){ width=20% }
 
