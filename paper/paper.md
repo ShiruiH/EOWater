@@ -33,10 +33,6 @@ bibliography: paper.bib
 
 # LETS ADD A FOOTER NOTE MENTIONING THAT BOTH S. Hao and K. Vos are first authors and have equally contributed.
 
-# Optional fields if submitting to a AAS journal too, see this blog post:
-# https://blog.joss.theoj.org/2018/12/a-new-collaboration-with-aas-publishing
-# aas-doi: 10.3847/xxxxx <- update this with the DOI from AAS once you know it.
-# aas-journal: Astrophysical Journal <- The name of the AAS journal.
 ---
 
 # Summary
@@ -134,16 +130,10 @@ Figure 3. Example output map for NSW Northern Murray Darling Basin. It provides 
 
 # Conclusion
 
-3-4 dot points on usefulness of this toolkit for water resources management.
-
-- Efficient and low-cost software for large-scale monitoring of water surface areas over days to decades.
-- Novel raster-based methodology using special pixel values and avoiding the computational burden of processing vector data.
-- End-to-end workflow that produces maps of water surface areas ready-to-use by end users and can be scheduled for live monitoring.
+The `EOWater` toolkit provides an efficient and low-cost software solution designed for large-scale monitoring of water surface areas across temporal scales, from daily observations to decadal analyses. This approach leverages a novel raster-based methodology, optimising data processing by using special pixel values that ease the computational burden typically associated with vector data processing. By focusing on pixel-based operations, the methodology ensures rapid and scalable analysis suitable for extensive datasets. The end-to-end workflow produces ready-to-use water surface area maps, which can be easily scheduled for live monitoring, making the system both adaptable and accessible for a wide range of end users, including environmental managers, researchers, and policymakers. This tool represents a significant advancement in remote sensing applications for water resource management, allowing for continuous, automated monitoring with minimal processing overhead.
 
 # Acknowledgements
 
 This work was funded by the Hydrometric Networks and Remote Sensing Program, Murray-Darling Basin Authority, Australian Government.
 
 # References
-
-
