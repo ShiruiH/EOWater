@@ -11,17 +11,15 @@ authors:
     orcid: 0000-0002-2560-0550
     corresponding: true
     equal-contrib: true
-    affiliation: 1 # (Multiple affiliations must be quoted)
+    affiliation: 1
   - name: Kilian Vos
     orcid: 0000-0002-9518-1582
     corresponding: true
-    equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
-    affiliation: 2
-  - name: Mustak Shaikh
+    equal-contrib: true
     affiliation: 2
   - name: Rory Donnelly
     affiliation: 1
-  - name: Azeem Khan
+  - name: Mustak Shaikh
     affiliation: 2
 affiliations:
  - name: NGIS
@@ -30,8 +28,6 @@ affiliations:
    index: 2
 date: 12 November 2024
 bibliography: paper.bib
-
-# LETS ADD A FOOTER NOTE MENTIONING THAT BOTH S. Hao and K. Vos are first authors and have equally contributed.
 
 ---
 
