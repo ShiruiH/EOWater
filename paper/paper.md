@@ -53,10 +53,7 @@ where *Green* represents the green spectral band, and *SWIR* denotes the shortwa
 
 Figure 1 shows an example reservoir illustrating the MNDWI pixel distribution and how a 0.1 threshold identifies wet pixels. To account for georeferencing errors in the satellite imagery, a buffer of 20 m was applied around each polygon. This allows the image to wobble +-20 m while the wet pixels are still accounted inside the boundary.
 
-<p align="justify">
-<img src="./paper/figure1.jpg" alt="drawing" width="700"/><br>
-Figure 1. Water surface area detection in a reservoir from a Sentinel-2 satellite image (17 Feb 2017). <strong>a)</strong> Sentinel-2 image at 10 m/pixel with the black line indicating the crest of the reservoir and the red line a 20 m buffer around that crest. <strong>b)</strong> Modified Normalised Difference Index (MNDWI) calculated by downsampling the 20 m/pixel shortwave-infrared (SWIR) to 10 m. <strong>c)</strong> Water pixels inside the buffered reservoir boundary, detected with a 0.1 threshold on MNDWI. <strong>d)</strong> Histogram distribution of the MNDWI pixel values highlighting the water (MNDWI above 0.1) and non-water pixels (MNDWI below 0.1). The water surface area is computed by multiplying the number of water pixels by the pixel resolution of the image.
-</p>
+![Water surface area detection in a reservoir from a Sentinel-2 satellite image (17 Feb 2017). <strong>a)</strong> Sentinel-2 image at 10 m/pixel with the black line indicating the crest of the reservoir and the red line a 20 m buffer around that crest. <strong>b)</strong> Modified Normalised Difference Index (MNDWI) calculated by downsampling the 20 m/pixel shortwave-infrared (SWIR) to 10 m. <strong>c)</strong> Water pixels inside the buffered reservoir boundary, detected with a 0.1 threshold on MNDWI. <strong>d)</strong> Histogram distribution of the MNDWI pixel values highlighting the water (MNDWI above 0.1) and non-water pixels (MNDWI below 0.1). The water surface area is computed by multiplying the number of water pixels by the pixel resolution of the image. \label{fig:figure_1}](./figure1.jpg)
 
 # Efficient cloud computing process
 
@@ -77,7 +74,7 @@ As each *observation raster* is summed with the *polygon mask*, just by looking 
 These steps are described in more details in the following sections.
 
 <p align="justify">
-<img src="./paper/figure2.jpg" alt="drawing" width="800"/><br>
+<img src="./figure2.jpg" alt="drawing" width="800"/><br>
 Figure 2. Flowchart illustrating the raster-based water surface area mapping workflow. Water surface areas for each polygon are extracted by solely computing sums of rasters and keeping track of special pixel values that identify each polygon, whether each polygon has water or is dry and whether each polygon contains cloud/no data pixels.
 </p>
 
@@ -119,7 +116,7 @@ By running the scripts included in this Github repository, we were able to extra
 Finally, the `EOWater` toolkit enables users to postprocess their water surface area time-series and generate an interactive Leaflet map with all the spatio-temporal data. In those maps, the users can click on a polygon and it will display the time-series of water surface area in that polygon, including an error band calculated assuming that there is half-a-pixel error along the water edge (this assumption can be edited in the code).
 
 <p align="justify">
-<img src="./paper/figure3.png" alt="drawing" width="800"/><br>
+<img src="./figure3.png" alt="drawing" width="800"/><br>
 Figure 3. Example output map for NSW Northern Murray Darling Basin. This is a static screen-capture from an interactive Leaflet map, where a user can click on a polygon and display the time-series of water surface area inside that polygon.
 </p>
 
