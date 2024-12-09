@@ -4,6 +4,9 @@ on:
     paths:
       - paper.md
       - paper.bib
+      - Figure1.jpg
+      - Figure2.jpg
+      - Figure3.jpg
       - .github/workflows/draft-pdf.yml
 
 jobs:
