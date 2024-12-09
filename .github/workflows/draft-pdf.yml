@@ -8,6 +8,14 @@ on:
       - figure2.jpg
       - figure3.jpg
       - .github/workflows/draft-pdf.yml
+  pull_request:
+    paths:
+      - paper.md
+      - paper.bib
+      - figure1.jpg
+      - figure2.jpg
+      - figure3.jpg
+      - .github/workflows/draft-pdf.yml
 
 jobs:
   paper:
