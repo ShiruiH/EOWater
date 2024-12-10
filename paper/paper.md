@@ -90,8 +90,11 @@ A single *polygon mask* is created for each Landsat and Sentinel-2 tile (Step 4 
 ## Water surface area extraction
 
 To extract the water surface area inside each polygon, the *polygon mask* is added to the *observation raster* for each date (Step 5). Then, by looking at the pixel values, the following steps can be completed (Steps 6 to 8 in \autoref{fig:figure_2}):
+
 - discard cloud affected polygons (if one or more cloud pixels are inside the polygon): *pixels = special value - 1*
+
 - extract water pixels in non-cloud affected polygons: *pixels = special value + 1*
+
 - extract empty polygons (no water): *pixels = special value*  
 
 Finally, Step 9 assigns a water surface area to each polygon for each date by multiplying the number of water pixels by the area of each pixel. A NaN ('not a number') is added to the observations when a polygon is covered by cloud pixels, and 0 is added for the empty cloud-free polygons.
