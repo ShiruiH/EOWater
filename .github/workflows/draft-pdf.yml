@@ -2,19 +2,19 @@ name: Draft PDF
 on:
   push:
     paths:
-      - paper.md
-      - paper.bib
-      - figure1.jpg
-      - figure2.jpg
-      - figure3.jpg
+      - paper/paper.md
+      - paper/paper.bib
+      - paper/figure1.jpg
+      - paper/figure2.jpg
+      - paper/figure3.jpg
       - .github/workflows/draft-pdf.yml
   pull_request:
     paths:
-      - paper.md
-      - paper.bib
-      - figure1.jpg
-      - figure2.jpg
-      - figure3.jpg
+      - paper/paper.md
+      - paper/paper.bib
+      - paper/figure1.jpg
+      - paper/figure2.jpg
+      - paper/figure3.jpg
       - .github/workflows/draft-pdf.yml
 
 jobs:
