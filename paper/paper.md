@@ -20,6 +20,7 @@ authors:
   - name: Rory Donnelly
     affiliation: 1
   - name: Mustak Shaikh
+    orcid: 0000-0002-8037-8032
     affiliation: 2
 affiliations:
  - name: NGIS
